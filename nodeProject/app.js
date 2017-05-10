@@ -1,3 +1,11 @@
 var server = require('./server');
 var router = require('./router');
-server.startServer(router.route);
+var handler = require('./handler');
+
+var handle = {};
+handle['/home'] = handler.home;
+handle['/'] = handler.home;
+handle['/review'] = handler.review;
+
+
+server.startServer(router.route, handle);

@@ -1,14 +1,17 @@
 var http = require('http');
 var url = require('url');
 
-function startServer(route){
+function startServer(route, handle){
   function onRequest(request,response){
+    var reviewData = "";
     var pathname = url.parse(request.url).pathname;
     console.log("request recieved for " + pathname)
-    route(pathname);
-    response.writeHead(200,{'Content-Type': 'text/plain'})
-    response.write('I used to be like you');
-    response.end();
+    request.setEncoding("utf8");
+
+    request.addListener("data",function(chunk){
+      reviewData += chunk;
+    })
+    route(handle, pathname, response);
   }
 
   http.createServer(onRequest).listen(8888);
