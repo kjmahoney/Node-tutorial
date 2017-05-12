@@ -11,7 +11,11 @@ function startServer(route, handle){
     request.addListener("data",function(chunk){
       reviewData += chunk;
     })
-    route(handle, pathname, response);
+
+    request.addListener("end", function(){
+      route(handle, pathname, response, reviewData);
+    })
+
   }
 
   http.createServer(onRequest).listen(8888);

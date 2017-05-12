@@ -1,8 +1,4 @@
-function review(response){
-  console.log('executing review handler');
-  response.write("review page");
-  response.end();
-}
+var querystring = require('querystring');
 
 function home(response){
   var fs = require('fs');
@@ -17,6 +13,13 @@ function home(response){
       response.end();
     }
   });
+}
+
+function review(response, reviewData){
+  console.log('executing review handler');
+  response.writeHead(200,{"Content-Type":"text/plain"});
+  response.write('Your review is ' + querystring.parse(reviewData).text);
+  response.end();
 }
 
 
